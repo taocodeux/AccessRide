@@ -31,7 +31,7 @@ function NavBar() {
 
   return (
     <>
-      <div className='shadow-lg fixed top-0 w-screen'>
+      <div className='shadow-lg fixed top-0 w-screen z-10'>
           {/* Sidebar */}
         <div
           className={`fixed top-0 left-0 h-full w-1/2 bg-primary transition-transform duration-300 z-50 ${
@@ -67,7 +67,7 @@ function NavBar() {
         </div>
 
         {/* Navbar */}
-        <nav className="flex items-center bg-primary justify-between w-full lg:py-3 lg:px-10 md:px-8 md:py-2 sm:px-6 sm:py-3">
+        <nav className="flex items-center bg-primary justify-between w-full lg:py-3 lg:px-12 md:px-8 md:py-2 sm:px-6 sm:py-3">
           {/* Left Section */}
           <div className={sharedNavDivStyles}>
             <img

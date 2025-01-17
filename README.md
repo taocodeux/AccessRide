@@ -1,4 +1,10 @@
 # Getting Started with Create React App
+This is a React-based project for managing ride services.
+
+## Technologies used:
+- React
+- Tailwind CSS
+- Node.js
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

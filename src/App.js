@@ -1,14 +1,17 @@
 import './App.css';
-import HeroSection from './components/HeroSection';
-import NavBar from './components/NavBar';
-import ServicesSection from './components/ServicesSection';
+import HomePage from './pages/HomePage';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import SignUp from './pages/SignUp';
+
 
 function App() {
   return (
     <>   
-      <NavBar/>
-      <HeroSection/>
-      <ServicesSection/>
+      <Routes>
+        <Route path='/' element ={<HomePage/>}/>
+        <Route path='/home' element= {<Navigate to ="/"/>}/>
+        <Route path='signup' element ={<SignUp/>}/>
+      </Routes>
     </>
   );
 }
