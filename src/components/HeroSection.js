@@ -1,7 +1,7 @@
 import React from 'react'
 import image from "../accessride-images/herosectionpix.png"
-import google from "../accessride-images/image-removebg-preview.png"
-import appStore from "../accessride-images/Download_on_the_App_Store_Badge.svg.png"
+import google from "../accessride-images/google.png"
+import appStore from "../accessride-images/app store.png"
 
 function HeroSection() {
   return (
