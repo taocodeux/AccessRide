@@ -1,110 +1,60 @@
 import {React, useState, useCallback} from 'react'
 import {errorStylesTwo, inputStyles } from '../styles/MyStyles'
 import { MdMyLocation, MdLocationOn } from 'react-icons/md'
-import { useFormik } from 'formik'
-import * as yup from "yup"
 import axios from 'axios'
 import {debounce}  from 'lodash'
 
-function BookingForm({onSetLocations}) {
-    const [pickUpCoord, setpickUpCoord] = useState(null)
-    const [dropOffCoord, setdropOffCoord] = useState(null)
+
+function BookingForm({formik}) {
     const [pickUpSuggestions, setPickUpSuggestions] = useState([])
     const [dropOffSuggestions, setDropOffSuggestions] = useState([])
-    const [errorMessage, setErrorMessage] = useState("")
 
 
-    const formik = useFormik({
-        initialValues:{
-            pickUp: "",
-            dropOff:"",
-            ridee:"",
-            accessibility:"",
-        },
-        validationSchema:yup.object({
-            pickUp:yup.string().required("please input your location"),
-            dropOff:yup.string().required("please input your destination"),
-            ridee:yup.string().required("please select the ridee"),
-            accessibility:yup.string().required("please select accessibility needed"),
-        }),
-        onSubmit: async(values)=>{
-            const pickUpCoord = await fetchCoordinates(values.pickUp)
-            const dropOffCoord = await fetchCoordinates(values.dropOff)
+    const fetchSuggestions = useCallback(
+        debounce(async (query, type) => {
+            if (!query) 
+                return
+            try {
+                const response = await axios.get("https://nominatim.openstreetmap.org/search", {
+                    params: { q: query, format: "json", addressdetails: 1, limit: 5 }
+                })
+                const suggestions = response.data.map((place) => ({
+                    place_id: place.place_id,
+                    display_name: place.display_name,
+                }))
+                if (type === "pickUp") {
+                    setPickUpSuggestions(suggestions)
+                } else {
+                    setDropOffSuggestions(suggestions)
+                }
+            } catch (error) {
+                console.error("Error fetching suggestions:", error)
+            }
+        }, 500),[setPickUpSuggestions, setDropOffSuggestions]
+    )
 
-            if (pickUpCoord && dropOffCoord) {
-                setpickUpCoord(pickUpCoord)
-                setdropOffCoord(dropOffCoord)
-                onSetLocations({ pickUp: pickUpCoord, dropOff: dropOffCoord});
-            }else {
-                setErrorMessage("Failed to fetch valid locations. Please try again.");
-            }},
-        })
+    const handlePickUpChange = (e) => {
+        const value = e.target.value
+        formik.setFieldValue("pickUp", value)
+        fetchSuggestions(value, "pickUp")
+    }
+    
+    const handleDropOffChange = (e) => {
+        const value = e.target.value
+        formik.setFieldValue("dropOff", value)
+        fetchSuggestions(value, "dropOff")
+    }
 
-    const fetchCoordinates = async(address) => {
-        try{
-            const response = await axios.get("https://nominatim.openstreetmap.org/search", {params: { q: address, format: "json", limit: 1 },})
-            if (response.data.length > 0) {
-                const { lat, lon } = response.data[0]
-                return {lat, lon}}
-            else{
-                setErrorMessage(`No coordinates found for ${address}`);
-                return null}}
-        catch(error) {
-            setErrorMessage("Failed to fetch coordinates. Please try again.");
-            console.error("Error fetching coordinates:", error);
-                return null}}
-
-                const fetchSuggestions = useCallback(
-                    debounce(async (query, type) => {
-                        if (!query) return;
-                
-                        try {
-                            const response = await axios.get("https://nominatim.openstreetmap.org/search", {
-                                params: { q: query, format: "json", addressdetails: 1, limit: 5 }
-                            });
-                
-                            const suggestions = response.data.map((place) => ({
-                                place_id: place.place_id,
-                                display_name: place.display_name,
-                            }));
-                
-                            if (type === "pickup") {
-                                setPickUpSuggestions(suggestions);  // ✅ FIXED
-                            } else {
-                                setDropOffSuggestions(suggestions);  // ✅ FIXED
-                            }
-                        } catch (error) {
-                            console.error("Error fetching suggestions:", error);
-                        }
-                    }, 500), // 500ms delay
-                    [setPickUpSuggestions, setDropOffSuggestions]
-                );
-                
-                
-                  const handlePickUpChange = (e) => {
-                    const value = e.target.value;
-                    formik.setFieldValue("pickUp", value);
-                    fetchSuggestions(value, "pickup");
-                  };
-                  
-                  const handleDropOffChange = (e) => {
-                    const value = e.target.value;
-                    formik.setFieldValue("dropOff", value);
-                    fetchSuggestions(value, "dropoff");
-                  }
-                
-                  const handleSuggestionClick = (suggestion, isPickUp) => {
-                    if (isPickUp) {
-                      formik.setFieldValue("pickUp", suggestion.display_name);
-                      setPickUpSuggestions([]); // Close suggestions
-                    } else {
-                      formik.setFieldValue("dropOff", suggestion.display_name);
-                      setDropOffSuggestions([]); // Close suggestions
-                    }
-                  };
-                  
-                
-
+    const handleSuggestionClick = (suggestion, isPickUp) => {
+        const address = suggestion.display_name
+        if (isPickUp) {
+            formik.setFieldValue("pickUp", address)
+            setPickUpSuggestions([])
+        } else {
+            formik.setFieldValue("dropOff", address)
+            setDropOffSuggestions([])
+        }
+    }
   return (
     <>
         <div className='md:w-1/4 border-2 border-secondary rounded-xl p-4 flex flex-col sm:w-full'>
@@ -115,35 +65,33 @@ function BookingForm({onSetLocations}) {
                     <input type="text" name='pickUp' value={formik.values.pickUp} onBlur={formik.handleBlur} onChange={handlePickUpChange} placeholder='Enter pickup location' className='w-full pl-2 outline-0'/>
                     {pickUpSuggestions.length > 0 && (
                         <ul className="absolute left-0 top-full bg-white border border-gray-300 w-full max-h-40 overflow-y-auto z-10 shadow-md">
-                        {pickUpSuggestions.map((suggestion) => (
-                        <li
-                            key={suggestion.place_id}
-                            onClick={() => handleSuggestionClick(suggestion, true)}
-                            className="p-2 cursor-pointer hover:bg-gray-200">
-                            {suggestion.display_name}
-                        </li>
-                    ))}
-                    </ul>
+                            {pickUpSuggestions.map((suggestion) => (
+                                <li
+                                    key={suggestion.place_id}
+                                    onClick={() => handleSuggestionClick(suggestion, true)}
+                                    className="p-2 cursor-pointer hover:bg-gray-200">
+                                    {suggestion.display_name}
+                                </li>
+                            ))}
+                        </ul>
                     )}
                 </div>
                 {formik.touched.pickUp && formik.errors.pickUp?<div className={errorStylesTwo}>{formik.errors.pickUp}</div>:null}
 
-                
                 <div className={`relative flex items-center gap-2 pl-3 ${inputStyles}`}>
                     <span><MdLocationOn size={18} className='text-secondary'/></span>
                     <input type="text" name='dropOff' value={formik.values.dropOff} onBlur={formik.handleBlur} onChange={handleDropOffChange}  placeholder='Enter drop-off location' className='w-full pl-2 outline-0'/>
                     {dropOffSuggestions.length > 0 && (
-                    <ul className="absolute left-0 top-full bg-white border border-gray-300 w-full max-h-40 overflow-y-auto z-10 shadow-md">
-                        {dropOffSuggestions.map((suggestion) => (
-                        <li
-                            key={suggestion.place_id}
-                            onClick={() => handleSuggestionClick(suggestion, false)}
-                            className="p-2 cursor-pointer hover:bg-gray-200"
-                        >
-                            {suggestion.display_name}
-                        </li>
-                        ))}
-                    </ul>
+                        <ul className="absolute left-0 top-full bg-white border border-gray-300 w-full max-h-40 overflow-y-auto z-10 shadow-md">
+                            {dropOffSuggestions.map((suggestion) => (
+                                <li
+                                    key={suggestion.place_id}
+                                    onClick={() => handleSuggestionClick(suggestion, false)}
+                                    className="p-2 cursor-pointer hover:bg-gray-200">
+                                    {suggestion.display_name}
+                                </li>
+                            ))}
+                        </ul>
                     )}
                 </div>
                 {formik.touched.dropOff && formik.errors.dropOff?<div className={errorStylesTwo}>{formik.errors.dropOff}</div>:null}

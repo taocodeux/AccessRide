@@ -7,3 +7,6 @@ export const sharedSidebarContainerStyles = "flex flex-col gap-3 items-start p-6
 export const inputStyles = "border-2 border-secondary p-2 rounded-xl"
 export const errorStyles = "text-red-600 text-sm mb-4" 
 export const errorStylesTwo ="text-red-600 text-sm"
+export const ellipsis = "w-auto h-8 overflow-hidden text-ellipsis whitespace-nowrap flex-1"
+export const carSingle ="border-y-2 border-secondary w-full p-2 flex justify-between p-2 items-center mt-2 gap-1 cursor-pointer"
+export const paymentDivBtn ="flex justify-center items-center sticky left-0 right-0 bottom-0 z-10 w-full shadow-xl rounded-b-lg p-4 bg-blue-400 w-[calc(100%+2rem)] -ml-4 hover:bg-accent"

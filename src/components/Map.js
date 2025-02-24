@@ -1,16 +1,21 @@
 import {React, useState,useEffect} from 'react'
-import { MapContainer, TileLayer,Marker, Polyline,useMap } from 'react-leaflet'
+import { MapContainer, TileLayer,Marker, Polyline,useMap, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
 import L from "leaflet"
 
-  const customIcon = new L.Icon({
-    iconUrl: "https://cdn-icons-png.flaticon.com/128/684/684908.png",
+  const pickUpIcon = new L.Icon({
+    iconUrl: "https://img.icons8.com/?size=100&id=52671&format=png&color=000000",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+  })
+  const dropOffIcon = new L.Icon({
+    iconUrl: "https://img.icons8.com/?size=100&id=13800&format=png&color=000000",
     iconSize: [32, 32],
     iconAnchor: [16, 32],
   })
 function Map({locations}) {
   const { pickUp, dropOff } = locations
-  const [userLocation, setUserLocation] = useState([54.9784, -1.6174])
+  const [userLocation, setUserLocation] = useState([51.5074, -0.1278])
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -22,6 +27,24 @@ function Map({locations}) {
       }
     )
   }, [])
+
+  const MapViewUpdater = ({ userLocation }) => {
+    const map = useMap()
+  
+    useEffect(() => {
+      if (userLocation) {
+        map.setView(userLocation, 13)
+      }
+    }, [userLocation, map])
+  
+    return null
+  }
+  const userIcon = new L.Icon({
+    iconUrl: "https://img.icons8.com/?size=100&id=19326&format=png&color=000000",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32], 
+  })
   return (
     <>
       <div className='md:w-3/4 border-2 border-secondary rounded-xl overflow-hidden sm:w-full'>
@@ -31,8 +54,13 @@ function Map({locations}) {
           <TileLayer  url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                       attribution='&copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'/>
 
-                      {pickUp && <Marker position={[pickUp.lat, pickUp.lon]} icon={customIcon} />}
-                      {dropOff && <Marker position={[dropOff.lat, dropOff.lon]} icon={customIcon} />}
+                      <Marker position={userLocation} icon={userIcon}>
+                        <Popup>You are here!</Popup>
+                      </Marker>
+                      <MapViewUpdater userLocation={userLocation} />
+
+                      {pickUp && <Marker position={[pickUp.lat, pickUp.lon]} icon={pickUpIcon} />}
+                      {dropOff && <Marker position={[dropOff.lat, dropOff.lon]} icon={dropOffIcon} />}
 
                       {pickUp && dropOff &&
           <Polyline   positions={[[pickUp.lat, pickUp.lon],[dropOff.lat, dropOff.lon]]}
