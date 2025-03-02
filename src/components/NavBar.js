@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { IoMenuOutline } from 'react-icons/io5'
 import Logo from "../accessride-images/AccessRide-logo-removebg-preview.png"
+import { Link } from 'react-router-dom'
 import { sharedNavDivStyles, sharedSidebarButtonStyles,sharedSidebarContainerStyles,sharedSidebarLinkStyles} from '../styles/MyStyles'
 
 function NavBar({bgColor,leftContent, rightContent,isDashboard}) {
@@ -38,25 +39,27 @@ function NavBar({bgColor,leftContent, rightContent,isDashboard}) {
               alt="Logo"
               className="border-2 border-accent w-[100px] h-[100px] bg-white rounded-full"
             />
-            <a href="#" className={sharedSidebarLinkStyles}>
+            <Link to="/signin" className={sharedSidebarLinkStyles}>
               Book a Ride
-            </a>
-            <a href="#" className={sharedSidebarLinkStyles}>
+            </Link>
+            <Link to="" className={sharedSidebarLinkStyles}>
               Drive
-            </a>
-            <a href="#" className={sharedSidebarLinkStyles}>
+            </Link>
+            <Link to="" className={sharedSidebarLinkStyles}>
               Delivery
-            </a>
-            <a href="#" className={sharedSidebarLinkStyles}>
+            </Link>
+            <Link to="" className={sharedSidebarLinkStyles}>
               Rental
-            </a>
-            <a href="#" className={sharedSidebarLinkStyles}>
+            </Link>
+            <Link to="" className={sharedSidebarLinkStyles}>
               Contact Us
-            </a>
-            <a href="#" className={sharedSidebarLinkStyles}>
+            </Link>
+            <Link to="/signup" className={sharedSidebarLinkStyles}>
               Sign Up
-            </a>
-            <button className={sharedSidebarButtonStyles}>Sign In</button>
+            </Link>
+            <Link to="/signin">
+              <button className={sharedSidebarButtonStyles}>Sign In</button>
+            </Link>
           </div>
         </div>
 

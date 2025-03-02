@@ -7,16 +7,16 @@ import vanPicture from "../accessride-images/van.avif"
 import petCarPicture from "../accessride-images/pet car.avif"
 import PaymentDiv from './PaymentDiv'
 
-function CarsOptions({pickUp, dropOff}) {
-    const [selectedCar, setSelectedCar] = useState(null)
+function CarsOptions({pickUp, dropOff, setIsModalOpen,selectedCar, setSelectedCar}) {
     const stringPickUp = pickUp || "Select Pickup"
     const stringDropOff = dropOff || "Select Dropoff"
 
-    const handleSelect =(title)=>{
-        setSelectedCar(title)
+    const handleSelect =(carsDetails)=>{
+        setSelectedCar(carsDetails)
+        // setIsModalOpen(true)
     }
 
-    const selectedClass = "shadow-xl border-2 border-orange-400"
+    const selectedClass = "shadow-xl border-2 border-accent"
   return (
     <>
         <div className='h-auto md:w-1/4 border-2 border-secondary rounded-xl px-4 pt-4 flex flex-col sm:w-full'>
@@ -27,12 +27,12 @@ function CarsOptions({pickUp, dropOff}) {
                 <span className={ellipsis}>{stringDropOff}</span>
             </div>
             <div className='overflow-y-auto scrollbar-hide'>
-                <CarSingle className={selectedCar === "ARide X"? selectedClass:""} onClick={()=>handleSelect("ARide X")} carPicture={carPicture} title="ARide X" aboutCar="Affordable everyday trip" price="£10.50" noOfPerson="4"/>  
-                <CarSingle className={selectedCar === "ARide XL"? selectedClass:""} onClick={()=>handleSelect("ARide XL")} carPicture={vanPicture} title="ARide XL" aboutCar="Affordable rides for groups up to 6" price="£16.00" noOfPerson="6"/>  
-                <CarSingle className={selectedCar === "ARide Premium"? selectedClass:""} onClick={()=>handleSelect("ARide Premium")} carPicture={carPicture} title="ARide Premium" aboutCar="Ride with exclusive" price="£17.10" noOfPerson="2"/>  
-                <CarSingle className={selectedCar === "ARide Pet"? selectedClass:""} onClick={()=>handleSelect("ARide Pet")} carPicture={petCarPicture} title="ARide Pet" aboutCar="Ride with your pet" price="£18.20" noOfPerson="3"/>  
+                <CarSingle className={selectedCar?.title === "ARide X"? selectedClass:""} onClick={()=>handleSelect({ title: "ARide X", price: "£10.50", noOfPerson: 4 })} carPicture={carPicture} title="ARide X" aboutCar="Affordable everyday trip" price="£10.50" noOfPerson="4"/>  
+                <CarSingle className={selectedCar?.title === "ARide XL"? selectedClass:""} onClick={()=>handleSelect({ title: "ARide XL", price: "£16.00", noOfPerson: 4 })} carPicture={vanPicture} title="ARide XL" aboutCar="Affordable rides for groups up to 6" price="£16.00" noOfPerson="6"/>  
+                <CarSingle className={selectedCar?.title === "ARide Premium"? selectedClass:""} onClick={()=>handleSelect({ title: "ARide Premium", price: "£17.10", noOfPerson: 4 })} carPicture={carPicture} title="ARide Premium" aboutCar="Ride with exclusive" price="£17.10" noOfPerson="2"/>  
+                <CarSingle className={selectedCar?.title === "ARide Pet"? selectedClass:""} onClick={()=>handleSelect({ title: "ARide Pet", price: "£18.20", noOfPerson: 4 })} carPicture={petCarPicture} title="ARide Pet" aboutCar="Ride with your pet" price="£18.20" noOfPerson="3"/>  
             </div>
-            <PaymentDiv/>
+            <PaymentDiv setIsModalOpen={setIsModalOpen} selectedCar={selectedCar}/>
         </div>
     </>
   )

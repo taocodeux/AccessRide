@@ -7,6 +7,7 @@ import AboutUs from '../components/AboutUs'
 import Footer from '../components/Footer'
 import Logo from "../accessride-images/AccessRide-logo-removebg-preview.png"
 import { sharedLineStyles,sharedLinkStyles } from '../styles/MyStyles'
+import { Link } from 'react-router-dom'
 
 function HomePage() {
   return (
@@ -21,10 +22,10 @@ function HomePage() {
                     alt="MyLogo"
                     className="border-2 border-accent lg:w-[60px] lg:h-[60px] bg-white rounded-full md:w-[50px] md:h-[50px] sm:w-[36px] sm:h-[36px]"
                   />
-                  <span className={sharedLinkStyles}>
+                  <Link to="/signin" className={sharedLinkStyles}>
                     Book a ride
                     <span className={sharedLineStyles}></span>
-                  </span>
+                  </Link>
                   <span className={sharedLinkStyles}>
                     Drive
                     <span className={sharedLineStyles}></span>

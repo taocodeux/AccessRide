@@ -1,11 +1,22 @@
-import React from 'react'
+import {React } from 'react'
 import { paymentDivBtn } from '../styles/MyStyles'
 
-function PaymentDiv() {
+function PaymentDiv({setIsModalOpen, selectedCar}) {
+  const openModalDiv=()=>{
+    if(selectedCar){
+      setIsModalOpen(true)
+    }else{
+      setIsModalOpen(false)
+    }
+  }
+  
   return (
-    <div className={paymentDivBtn} onClick={}>
-        <button>Add Payment Method</button>
-    </div>
+    <>
+      <div className={paymentDivBtn}>
+        <button onClick={openModalDiv}>Add Payment Method</button>
+      </div>
+    </>
+
   )
 }
 

@@ -9,6 +9,7 @@ import CarsOptions from '../components/CarsOptions'
 import { useFormik } from 'formik'
 import * as yup from "yup"
 import axios from 'axios'
+import PaymentModal from '../components/PaymentModal'
 
 
 function DashBoard() {
@@ -17,6 +18,10 @@ function DashBoard() {
   const [pickUpCoord, setpickUpCoord] = useState(null)
   const [dropOffCoord, setdropOffCoord] = useState(null)
   const [errorMessage, setErrorMessage] = useState("")
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedCar, setSelectedCar] = useState(null)
+  const [startRide, setStartRide] = useState(false)
+
   
   const formik = useFormik({
     initialValues:{
@@ -63,7 +68,12 @@ function DashBoard() {
         console.error("Error fetching coordinates:", error)
         return null
     }
-}
+  }
+
+  const handleCarSelection = (car) => {
+    setSelectedCar(car)
+    setIsModalOpen(true)
+  }
   return (
     <>
       <NavBar
@@ -98,11 +108,13 @@ function DashBoard() {
       />
       <div className='gap-6 lg:pt-24 md:pt-24 sm:pt-24 md:h-screen flex justify-between w-full lg:py-8 lg:px-12 md:px-8 md:py-4 md:flex-row sm:px-6 sm:py-3 sm:flex-col'>
           {carsOptions ?
-          <CarsOptions pickUp={formik.values.pickUp} dropOff={formik.values.dropOff} />
+          <CarsOptions pickUp={formik.values.pickUp} dropOff={formik.values.dropOff} setIsModalOpen={setIsModalOpen} selectedCar={selectedCar} setSelectedCar={setSelectedCar}/>
           :<BookingForm formik={formik}/>
           }
-          <Map locations={locations}/>
+          <Map locations={locations} startRide={startRide} setStartRide={setStartRide}/>
       </div>
+
+      {isModalOpen && <PaymentModal selectedCar={selectedCar} setStartRide={setStartRide} closeModalDiv={() => setIsModalOpen(false)}/>}
     </>
   )
 }
