@@ -4,9 +4,10 @@ import bookImage from "../accessride-images/book services.avif"
 import driveImage from "../accessride-images/driver taxi.avif"
 import deliveryImage from "../accessride-images/delivery.avif"
 import rentImage from "../accessride-images/car rentt.avif"
+import { useNavigate } from 'react-router-dom'
 
 function ServicesSection() {
-  
+  const navigate = useNavigate()
   return (
     <>
       <div className='lg:py-8 lg:px-12 w-full md:px-8 md:py-4 sm:px-6 sm:py-3'>
@@ -17,6 +18,7 @@ function ServicesSection() {
           <ServicesCard title = "Book a ride" 
                         description="Easily book a ride on your phone for a seamless, stressfree journey to your destination."
                         image={bookImage}
+                        onClick={()=>navigate("/signin")}
           />
           <ServicesCard title = "Drive for us" 
                         description="Join our community of drivers and earn by providing safe, reliable rides to customers."

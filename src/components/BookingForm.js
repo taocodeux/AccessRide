@@ -3,11 +3,23 @@ import {errorStylesTwo, inputStyles } from '../styles/MyStyles'
 import { MdMyLocation, MdLocationOn } from 'react-icons/md'
 import axios from 'axios'
 import {debounce}  from 'lodash'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 
 function BookingForm({formik}) {
     const [pickUpSuggestions, setPickUpSuggestions] = useState([])
     const [dropOffSuggestions, setDropOffSuggestions] = useState([])
+    const navigate = useNavigate()
+    const storedValues = JSON.parse(localStorage.getItem("formValues"))|| {}
+    const firstName = storedValues.firstName || null
+
+    useEffect(() => {
+      if(!firstName){
+        navigate("/signin")
+      }
+    }, [firstName,navigate])
+    
 
 
     const fetchSuggestions = useCallback(
@@ -59,6 +71,7 @@ function BookingForm({formik}) {
     <>
         <div className='md:w-1/4 border-2 border-secondary rounded-xl p-4 flex flex-col sm:w-full'>
             <h3 className='lg:text-xl font-bold mb-2 sm:text-lg'>Book a Trip</h3>
+            {firstName? <h4 className="text-md mb-2">Hi {firstName},</h4>:null}
             <form action="" className='flex flex-col gap-3' onSubmit={formik.handleSubmit}>
                 <div className={`relative flex items-center gap-2 pl-3 ${inputStyles}`}>
                     <span><MdMyLocation size={18} className='text-secondary'/></span>

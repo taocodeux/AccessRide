@@ -3,6 +3,7 @@ import Logo from "../accessride-images/AccessRide-logo-removebg-preview.png"
 import facebook from "../accessride-images/facebook.png"
 import instagram from "../accessride-images/instagram.png"
 import X from "../accessride-images/X.png"
+import { Link } from 'react-router-dom'
 
 function Footer() {
     const copyright = "\u00A9"
@@ -15,7 +16,7 @@ function Footer() {
             </div>
             <div className='flex flex-col leading-[2.5] md:w-1/4 sm:w-full'>
                 <span className='font-medium mb-2'>AccessRide</span>
-                <span className='hover:text-accent'>Book</span>
+                <Link to="/signin" className='hover:text-accent cursor-pointer'>Book</Link>
                 <span className='hover:text-accent'>Drive</span>
                 <span className='hover:text-accent'>Delivery</span>
                 <span className='hover:text-accent'>Rental</span>
