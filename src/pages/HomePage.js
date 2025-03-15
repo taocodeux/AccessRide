@@ -7,7 +7,7 @@ import AboutUs from '../components/AboutUs'
 import Footer from '../components/Footer'
 import Logo from "../accessride-images/AccessRide-logo-removebg-preview.png"
 import { sharedLineStyles,sharedLinkStyles } from '../styles/MyStyles'
-import { Link, Links } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 function HomePage() {
   return (

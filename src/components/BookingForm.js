@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 function BookingForm({formik}) {
     const [pickUpSuggestions, setPickUpSuggestions] = useState([])
     const [dropOffSuggestions, setDropOffSuggestions] = useState([])
+
     const navigate = useNavigate()
     const storedValues = JSON.parse(localStorage.getItem("formValues"))|| {}
     const firstName = storedValues.firstName || null
@@ -20,8 +21,6 @@ function BookingForm({formik}) {
       }
     }, [firstName,navigate])
     
-
-
     const fetchSuggestions = useCallback(
         debounce(async (query, type) => {
             if (!query) 
@@ -67,9 +66,9 @@ function BookingForm({formik}) {
             setDropOffSuggestions([])
         }
     }
-  return (
+  return ( 
     <>
-        <div className='md:w-1/4 border-2 border-secondary rounded-xl p-4 flex flex-col sm:w-full'>
+        <div className='lg:w-1/4 border-2 border-secondary rounded-xl p-4 flex flex-col sm:w-full md:w-full h-full'>
             <h3 className='lg:text-xl font-bold mb-2 sm:text-lg'>Book a Trip</h3>
             {firstName? <h4 className="text-md mb-2">Hi {firstName},</h4>:null}
             <form action="" className='flex flex-col gap-3' onSubmit={formik.handleSubmit}>

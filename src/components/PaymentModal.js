@@ -3,7 +3,7 @@ import { FaPaypal } from 'react-icons/fa'
 import { FaMoneyBillTransfer,FaRegCreditCard } from 'react-icons/fa6'
 import { IoClose } from 'react-icons/io5'
 import { MethodDiv } from '../styles/MyStyles'
-import { FlutterWaveButton, closePaymentModal } from 'flutterwave-react-v3'
+import { closePaymentModal } from 'flutterwave-react-v3'
 import Logo from "../accessride-images/AccessRide-logo-removebg-preview.png"
 import { proceedBtn } from '../styles/MyStyles'
 
@@ -39,7 +39,6 @@ function PaymentModal({selectedCar, closeModalDiv,setStartRide}) {
                 logo: <img src={Logo} alt="Logo" />,
             },
             callback: (response) => {
-                console.log("Payment Successful:", response);
                 closePaymentModal()
                 closeModalDiv()
 
@@ -57,7 +56,7 @@ function PaymentModal({selectedCar, closeModalDiv,setStartRide}) {
     
   return (
     <div className='w-full min-h-screen fixed inset-0 backdrop-blur-md bg-black/500 flex justify-center items-center z-[1000]'>
-        <div className='w-1/2 h-auto justify-center items-center rounded-lg border-2 border-accent p-4'>
+        <div className='sm:w-full md:w-1/2 h-auto justify-center items-center rounded-lg border-2 border-accent p-4'>
             <h1 className='flex justify-end text-right cursor-pointer' onClick={closeModalDiv}><IoClose size={36}/></h1>
             <h3 className='lg:text-xl font-bold mb-4 sm:text-lg'>Choose a Payment Method</h3>
             <div className='flex flex-col gap-3'>

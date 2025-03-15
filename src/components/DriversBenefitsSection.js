@@ -4,7 +4,7 @@ import happyDriver from "../accessride-images/happy driver.avif"
 function DriversBenefitsSection() {
   return (
     <>
-        <div className='h-full justify-center w-full lg:py-8 lg:px-12 md:flex md:flex-row md:px-8 md:py-4 sm:px-6 sm:py-3 sm:flex-col'>
+        <div className='lg:h-screen justify-center w-full lg:py-8 lg:px-12 md:flex md:flex-row md:px-8 md:py-4 sm:px-6 sm:py-3 sm:flex-col'>
             <div className='md:w-1/2 sm:w-full'>
               <div className='relative'>
                 <h1 className='lg:text-3xl font-bold mb-2 sm:text-2xl'>Our Driver's benefit</h1>

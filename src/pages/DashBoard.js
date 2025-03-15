@@ -2,7 +2,6 @@ import {React,useState} from 'react'
 import NavBar from '../components/NavBar'
 import Logo from "../accessride-images/AccessRide-logo-removebg-preview.png"
 import { sharedLineStyles,sharedLinkStyles } from '../styles/MyStyles'
-import ProfilePix from "../accessride-images/profilePix.png"
 import BookingForm from '../components/BookingForm'
 import Map from '../components/Map'
 import CarsOptions from '../components/CarsOptions'
@@ -10,6 +9,8 @@ import { useFormik } from 'formik'
 import * as yup from "yup"
 import axios from 'axios'
 import PaymentModal from '../components/PaymentModal'
+import RateDriver from '../components/RateDriver'
+import ProfileChange from '../components/ProfileChange'
 
 
 function DashBoard() {
@@ -21,6 +22,8 @@ function DashBoard() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedCar, setSelectedCar] = useState(null)
   const [startRide, setStartRide] = useState(false)
+  const [carPosition, setCarPosition] = useState(null)
+  const [showRating, setShowRating] = useState(false);
 
   
   const formik = useFormik({
@@ -74,6 +77,15 @@ function DashBoard() {
     setSelectedCar(car)
     setIsModalOpen(true)
   }
+
+  const resetDashboard=()=>{
+    setLocations({ pickUp: null, dropOff: null })
+    setStartRide(false)
+    setCarsOptions(false)
+    setCarPosition(null)
+    setShowRating(false)
+    formik.resetForm()
+  }
   return (
     <>
       <NavBar
@@ -89,32 +101,21 @@ function DashBoard() {
                 <span className={sharedLinkStyles}>
                   Your Trip
                   <span className={sharedLineStyles}></span>
-                </span>
-                <span className={sharedLinkStyles}>
-                  Rent
-                  <span className={sharedLineStyles}></span>
-                </span>         
+                </span>        
               </>}
-              rightContent={
-              <>
-                <span className={sharedLinkStyles}>
-                  Activity
-                  <span className={sharedLineStyles}></span>
-                </span>
-                <button className="border-2 border-accent rounded-full hover:bg-accent lg:w-[60px] lg:h-[60px] md:w-[50px] md:h-[50px] sm:w-[36px] sm:h-[36px]">
-                  <img src={ProfilePix} alt="" />
-                </button>
-              </>}
+              rightContent={<ProfileChange/>}
       />
-      <div className='gap-6 lg:pt-24 md:pt-24 sm:pt-24 md:h-screen flex justify-between w-full lg:py-8 lg:px-12 md:px-8 md:py-4 md:flex-row sm:px-6 sm:py-3 sm:flex-col'>
+      <div className='gap-6 lg:pt-24 md:pt-24 sm:pt-24 md:h-full lg:h-screen flex justify-between w-full lg:py-8 lg:px-12 md:px-8 md:py-4 lg:flex-row sm:px-6 sm:py-3 sm:flex-col'>
           {carsOptions ?
           <CarsOptions pickUp={formik.values.pickUp} dropOff={formik.values.dropOff} setIsModalOpen={setIsModalOpen} selectedCar={selectedCar} setSelectedCar={setSelectedCar}/>
           :<BookingForm formik={formik}/>
           }
-          <Map locations={locations} startRide={startRide} setStartRide={setStartRide}/>
+          <Map locations={locations} startRide={startRide} setStartRide={setStartRide} resetDashboard={resetDashboard} setCarPosition={setCarPosition} carPosition={carPosition} setShowRating={setShowRating}/>
       </div>
 
       {isModalOpen && <PaymentModal selectedCar={selectedCar} setStartRide={setStartRide} closeModalDiv={() => setIsModalOpen(false)}/>}
+
+      {showRating && <RateDriver resetDashboard={resetDashboard}/>}
     </>
   )
 }

@@ -26,13 +26,12 @@ function NavBar({bgColor,leftContent, rightContent,isDashboard}) {
 
   return (
     <>
-      <div className='shadow-lg fixed top-0 w-screen z-10'>
+      <div className='shadow-lg fixed top-0 w-screen z-[1000]'>
           {/* Sidebar */}
         <div
           className={`fixed top-0 left-0 h-full w-1/2 bg-primary transition-transform duration-300 z-50 ${
             isNavVisible ? 'translate-x-0' : '-translate-x-full'
-          }`}
-        >
+          }`}>
           <div className={sharedSidebarContainerStyles}>
             <img
               src={Logo}
@@ -64,7 +63,7 @@ function NavBar({bgColor,leftContent, rightContent,isDashboard}) {
         </div>
 
         {/* Navbar */}
-        <nav className={`flex items-center ${bgColor, isDashboard? "bg-white" :"bg-primary"} justify-between w-full lg:px-12 md:px-8 md:py-2 sm:px-6 sm:py-3`}>
+        <nav className={`flex items-center ${isDashboard? "bg-white" :"bg-primary"} justify-between w-full lg:px-12 md:px-8 md:py-2 sm:px-6 sm:py-3 z-50`}>
           {/* Left Section */}        
           <div className={sharedNavDivStyles}>
             {leftContent}
@@ -76,10 +75,11 @@ function NavBar({bgColor,leftContent, rightContent,isDashboard}) {
           </div>
 
           {/* Mobile Menu Icon */}
-          <div
-            className="lg:hidden md:hidden flex items-center justify-center cursor-pointer" onClick={toggleMenu}>
-            <IoMenuOutline size={36} />
-          </div>
+          {!isDashboard && (
+            <div className="lg:hidden md:hidden flex items-center justify-center cursor-pointer" onClick={toggleMenu}>
+              <IoMenuOutline size={36} />
+            </div>
+          )}
         </nav>
       </div>
     </>

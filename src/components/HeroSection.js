@@ -6,7 +6,7 @@ import appStore from "../accessride-images/app store.png"
 function HeroSection() {
   return (
     <>
-      <div className='md:h-screen flex justify-between w-full lg:py-8 lg:px-12 md:px-8 md:py-4 md:flex-row sm:px-6 sm:py-3 sm:flex-col'>
+      <div className='mb-4 md:h-full flex justify-between w-full lg:py-8 lg:px-12 md:px-8 md:py-4 md:flex-row sm:px-6 sm:py-3 sm:flex-col'>
         <div className='flex flex-col flex-grow md:w-1/2 sm:w-full pt-24'>
           <h1 className='lg:text-6xl font-semibold lg:w-3/4 leading-tight sm:text-[35px] sm:w-full'>Moving with Comfort</h1>
           <span className='lg:text-lg leading-relaxed lg:pt-6 md:text-md md:pt-4 sm:text-sm sm:pt-2'>AccessRide is your trusted partner for accessible and reliable transportation. Designed with your needs in mind, our app ensures convenience, comfort, and safety, making every journey stress-free and enjoyable.</span>

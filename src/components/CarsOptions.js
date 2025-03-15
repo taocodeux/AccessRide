@@ -1,4 +1,4 @@
-import {React, useState} from 'react'
+import {React} from 'react'
 import CarSingle from './CarSingle'
 import { FaArrowRight } from 'react-icons/fa'
 import { ellipsis } from '../styles/MyStyles'
@@ -19,7 +19,7 @@ function CarsOptions({pickUp, dropOff, setIsModalOpen,selectedCar, setSelectedCa
     const selectedClass = "shadow-xl border-2 border-accent"
   return (
     <>
-        <div className='h-auto md:w-1/4 border-2 border-secondary rounded-xl px-4 pt-4 flex flex-col sm:w-full'>
+        <div className='h-full lg:w-1/4 border-2 border-secondary rounded-xl px-4 pt-4 flex flex-col sm:w-full'>
             <h3 className='lg:text-xl font-bold mb-2 sm:text-lg'>Choose a Trip</h3>
             <div className='flex justify-between border-2 border-secondary rounded-xl p-2 items-center h-12 w-full'>
                 <span className={ellipsis}>{stringPickUp}</span>
