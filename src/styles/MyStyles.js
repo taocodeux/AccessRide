@@ -12,3 +12,4 @@ export const carSingle ="border-y-2 w-full p-2 flex justify-between p-2 items-ce
 export const paymentDivBtn ="flex justify-center items-center sticky left-0 right-0 bottom-0 z-10 w-full shadow-xl rounded-lg p-4 bg-primary hover:bg-accent"
 export const MethodDiv = "flex items-center gap-10 text-xl border-2 p-3 rounded-lg mb-2"
 export const proceedBtn ="flex justify-center items-center w-full shadow-xl rounded-lg p-4 bg-primary hover:bg-accent"
+export const signForm = "flex flex-col md:w-1/2 w-full p-2 gap-3"

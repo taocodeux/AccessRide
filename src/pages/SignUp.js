@@ -3,7 +3,7 @@ import Logo from "../accessride-images/AccessRide-logo-removebg-preview.png"
 import { useFormik } from 'formik'
 import * as yup from "yup"
 import { Link, useNavigate } from 'react-router-dom'
-import { inputStyles,errorStyles } from '../styles/MyStyles'
+import { inputStyles,errorStyles,signForm } from '../styles/MyStyles'
 
 function SignUp() {
   const navigate = useNavigate()
@@ -32,10 +32,10 @@ function SignUp() {
     <>
       <div className='p-6 flex flex-col justify-center items-center m-auto w-full h-full'>
         <div > 
-          <img src={Logo} alt="Logo" className='border-2 border-accent lg:w-[100px] lg:h-[100px] bg-white rounded-full md:w-[100px] md:h-[100px] sm:w-[60px] sm:h-[60px]'/>
+          <img src={Logo} alt="Logo" className='border-2 border-accent lg:w-[120px] lg:h-[120px] bg-white rounded-full md:w-[120px] md:h-[120px] sm:w-[100px] sm:h-[100px]'/>
         </div>
         <h3 className='font-medium text-2xl'>Create an account</h3>
-        <form className='flex flex-col w-1/2' onSubmit={formik.handleSubmit}>
+        <form className={signForm} onSubmit={formik.handleSubmit}>
           <label htmlFor="firstName">First Name:</label>
             <input type="text" id='firstName' name='firstName' value={formik.values.firstName} onChange={formik.handleChange} placeholder='Enter your first name' onBlur={formik.handleBlur} className={inputStyles} autoComplete='given-name'/>
             {formik.touched.firstName && formik.errors.firstName ?(<div className={errorStyles}>{formik.errors.firstName}</div>): null}
