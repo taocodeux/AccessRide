@@ -1,4 +1,4 @@
-import {React, useState, useCallback} from 'react'
+import {React, useState} from 'react'
 import {errorStylesTwo, inputStyles } from '../styles/MyStyles'
 import { MdMyLocation, MdLocationOn } from 'react-icons/md'
 import axios from 'axios'
@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
-function BookingForm({formik}) {
+function BookingForm({formik, errorMessage}) {
     const [pickUpSuggestions, setPickUpSuggestions] = useState([])
     const [dropOffSuggestions, setDropOffSuggestions] = useState([])
 
@@ -21,28 +21,27 @@ function BookingForm({formik}) {
       }
     }, [firstName,navigate])
     
-    const fetchSuggestions = useCallback(
-        debounce(async (query, type) => {
-            if (!query) 
-                return
-            try {
-                const response = await axios.get("https://nominatim.openstreetmap.org/search", {
-                    params: { q: query, format: "json", addressdetails: 1, limit: 5 }
-                })
-                const suggestions = response.data.map((place) => ({
-                    place_id: place.place_id,
-                    display_name: place.display_name,
-                }))
-                if (type === "pickUp") {
-                    setPickUpSuggestions(suggestions)
-                } else {
-                    setDropOffSuggestions(suggestions)
-                }
-            } catch (error) {
-                console.error("Error fetching suggestions:", error)
+    const fetchSuggestions = debounce(async (query, type) => {
+        if (!query) 
+            return
+        try {
+            const response = await axios.get("https://nominatim.openstreetmap.org/search", {
+                params: { q: query, format: "json", addressdetails: 1, limit: 5 }
+            })
+            const suggestions = response.data.map((place) => ({
+                place_id: place.place_id,
+                display_name: place.display_name,
+            }))
+            if (type === "pickUp") {
+                setPickUpSuggestions(suggestions)
+            } else {
+                setDropOffSuggestions(suggestions)
             }
-        }, 500),[axios, debounce, setPickUpSuggestions, setDropOffSuggestions]
-    )
+        } catch (error) {
+            console.error("Error fetching suggestions:", error)
+        }
+    }, 500)
+    
 
     const handlePickUpChange = (e) => {
         const value = e.target.value
@@ -127,6 +126,7 @@ function BookingForm({formik}) {
                 {formik.touched.accessibility && formik.errors.accessibility?<div className={errorStylesTwo}>{formik.errors.accessibility}</div>:null}
                 <button type='submit' className='w-full bg-primary border-2 border-accent hover:bg-accent rounded-xl p-2'>Search</button>
             </form>
+            {errorMessage && <div className="text-red-500">{errorMessage}</div>}
         </div>
     </>
   )

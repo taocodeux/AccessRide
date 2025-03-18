@@ -16,9 +16,7 @@ import ProfileChange from '../components/ProfileChange'
 function DashBoard() {
   const [locations, setLocations] = useState({ pickUp: null, dropOff: null })
   const [carsOptions, setCarsOptions] = useState(false)
-  const [pickUpCoord, setpickUpCoord] = useState(null)
-  const [dropOffCoord, setdropOffCoord] = useState(null)
-  const [errorMessage, setErrorMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedCar, setSelectedCar] = useState(null)
   const [startRide, setStartRide] = useState(false)
@@ -44,11 +42,9 @@ function DashBoard() {
         let dropOffCoord = await fetchCoordinates(values.dropOff)
 
         if (pickUpCoord && dropOffCoord) {
-            setpickUpCoord(pickUpCoord)
-            setdropOffCoord(dropOffCoord)
-            // console.log(pickUpCoord,dropOffCoord, errorMessage)
             setLocations({ pickUp: pickUpCoord, dropOff: dropOffCoord})
             setCarsOptions(true)
+            setErrorMessage("")
         }else {
             setErrorMessage("Failed to fetch valid locations. Please try again.")
         }
@@ -60,14 +56,11 @@ function DashBoard() {
         const response = await axios.get("https://nominatim.openstreetmap.org/search", {params: { q: address, format: "json", limit: 1 },})
         if (response.data.length > 0) {
             const { lat, lon } = response.data[0]
-            return {lat, lon}}
-        else{
-            setErrorMessage(`No coordinates found for ${address}`)
-            return null
-        }
+            return {lat, lon}
+          }
+          return null
     }
     catch(error) {
-        setErrorMessage("Failed to fetch coordinates. Please try again.")
         console.error("Error fetching coordinates:", error)
         return null
     }
@@ -103,7 +96,7 @@ function DashBoard() {
       <div className='gap-6 lg:pt-24 md:pt-24 sm:pt-24 md:h-full lg:h-screen flex justify-between w-full lg:py-8 lg:px-12 md:px-8 md:py-4 lg:flex-row sm:px-6 sm:py-3 sm:flex-col'>
           {carsOptions ?
           <CarsOptions pickUp={formik.values.pickUp} dropOff={formik.values.dropOff} setIsModalOpen={setIsModalOpen} selectedCar={selectedCar} setSelectedCar={setSelectedCar}/>
-          :<BookingForm formik={formik}/>
+          :<BookingForm formik={formik} errorMessage={errorMessage}/>
           }
           <Map locations={locations} startRide={startRide} setStartRide={setStartRide} setCarPosition={setCarPosition} carPosition={carPosition} setShowRating={setShowRating}/>
       </div>

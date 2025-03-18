@@ -66,7 +66,7 @@ function Map({locations,startRide, setStartRide,setCarPosition,carPosition,setSh
       setCarPosition([pickUp.lat, pickUp.lon]);
       setMoving(true);
     }
-  }, [startRide, pickUp, dropOff], setCarPosition);
+  }, [startRide, pickUp, dropOff, setCarPosition]);
 
   useEffect(() => {
     if (moving && pickUp && dropOff) {
