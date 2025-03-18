@@ -41,7 +41,7 @@ function BookingForm({formik}) {
             } catch (error) {
                 console.error("Error fetching suggestions:", error)
             }
-        }, 500),[setPickUpSuggestions, setDropOffSuggestions]
+        }, 500),[axios, debounce, setPickUpSuggestions, setDropOffSuggestions]
     )
 
     const handlePickUpChange = (e) => {

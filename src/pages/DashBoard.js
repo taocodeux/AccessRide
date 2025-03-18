@@ -40,18 +40,18 @@ function DashBoard() {
         accessibility:yup.string().required("please select accessibility needed"),
     }),
     onSubmit: async(values)=>{
-        const pickUpCoord = await fetchCoordinates(values.pickUp)
-        const dropOffCoord = await fetchCoordinates(values.dropOff)
+        let pickUpCoord = await fetchCoordinates(values.pickUp)
+        let dropOffCoord = await fetchCoordinates(values.dropOff)
 
         if (pickUpCoord && dropOffCoord) {
             setpickUpCoord(pickUpCoord)
             setdropOffCoord(dropOffCoord)
+            // console.log(pickUpCoord,dropOffCoord, errorMessage)
             setLocations({ pickUp: pickUpCoord, dropOff: dropOffCoord})
+            setCarsOptions(true)
         }else {
             setErrorMessage("Failed to fetch valid locations. Please try again.")
         }
-        setCarsOptions(true)
-
     }
   })
 
@@ -71,11 +71,6 @@ function DashBoard() {
         console.error("Error fetching coordinates:", error)
         return null
     }
-  }
-
-  const handleCarSelection = (car) => {
-    setSelectedCar(car)
-    setIsModalOpen(true)
   }
 
   const resetDashboard=()=>{
@@ -110,7 +105,7 @@ function DashBoard() {
           <CarsOptions pickUp={formik.values.pickUp} dropOff={formik.values.dropOff} setIsModalOpen={setIsModalOpen} selectedCar={selectedCar} setSelectedCar={setSelectedCar}/>
           :<BookingForm formik={formik}/>
           }
-          <Map locations={locations} startRide={startRide} setStartRide={setStartRide} resetDashboard={resetDashboard} setCarPosition={setCarPosition} carPosition={carPosition} setShowRating={setShowRating}/>
+          <Map locations={locations} startRide={startRide} setStartRide={setStartRide} setCarPosition={setCarPosition} carPosition={carPosition} setShowRating={setShowRating}/>
       </div>
 
       {isModalOpen && <PaymentModal selectedCar={selectedCar} setStartRide={setStartRide} closeModalDiv={() => setIsModalOpen(false)}/>}

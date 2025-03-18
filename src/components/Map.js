@@ -26,15 +26,7 @@ const carIcon = new L.Icon({
   iconSize: [32, 32],
   iconAnchor: [16, 32],
 });
-function Map({
-  locations,
-  startRide,
-  setStartRide,
-  resetDashboard,
-  setCarPosition,
-  carPosition,
-  setShowRating,
-}) {
+function Map({locations,startRide, setStartRide,setCarPosition,carPosition,setShowRating,}) {
   const { pickUp, dropOff } = locations;
   const [userLocation, setUserLocation] = useState([51.5074, -0.1278]);
   const [moving, setMoving] = useState(false);
@@ -74,7 +66,7 @@ function Map({
       setCarPosition([pickUp.lat, pickUp.lon]);
       setMoving(true);
     }
-  }, [startRide, pickUp, dropOff]);
+  }, [startRide, pickUp, dropOff], setCarPosition);
 
   useEffect(() => {
     if (moving && pickUp && dropOff) {
@@ -113,7 +105,7 @@ function Map({
 
       return () => clearInterval(interval);
     }
-  }, [moving, pickUp, dropOff]);
+  }, [moving, pickUp, dropOff, setCarPosition, setShowRating, setStartRide]);
   return (
     <>
       <div className="relative h-full lg:w-3/4 border-2 border-secondary rounded-xl overflow-hidden sm:w-full">
